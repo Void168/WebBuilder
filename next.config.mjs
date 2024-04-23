@@ -8,7 +8,8 @@ const nextConfig = {
             'subdomain',
             'files.stripe.com'
         ]
-    }
+    },
+    reactStrictMode: false
 };
 
 export default nextConfig;
