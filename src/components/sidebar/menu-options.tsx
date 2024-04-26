@@ -2,18 +2,14 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  Agency,
   AgencySidebarOption,
   SubAccount,
   SubAccountSidebarOption,
 } from "@prisma/client";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
-import {
-  ChevronsUpDown,
-  Compass,
-  Menu,
-  PlusCircleIcon,
-} from "lucide-react";
+import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
 import { AspectRatio } from "../ui/aspect-ratio";
@@ -28,6 +24,10 @@ import {
   CommandList,
 } from "../ui/command";
 import { Separator } from "../ui/separator";
+import { useModal } from "@/providers/modal-provider";
+import CustomModal from "../global/custom-modal";
+import SubAccountDetails from "../forms/subaccount-details";
+import { icons } from "@/libs/constants";
 
 type Props = {
   defaultOpen?: boolean;
@@ -48,6 +48,7 @@ const MenuOptions = ({
   user,
   defaultOpen,
 }: Props) => {
+  const { setOpen } = useModal();
   const [isMounted, setIsMounted] = useState(false);
 
   const openState = useMemo(
@@ -57,7 +58,7 @@ const MenuOptions = ({
 
   useEffect(() => {
     setIsMounted(true);
-    console.log(user)
+    console.log(user);
   }, []);
 
   if (!isMounted) return;
@@ -144,26 +145,25 @@ const MenuOptions = ({
                               </div>
                             </Link>
                           ) : (
-
-                              <Link
-                                href={`/agency/${user?.Agency?.id}`}
-                                className="flex gap-4 w-full h-full"
-                              >
-                                <div className="relative w-16">
-                                  <Image
-                                    src={user?.Agency?.agencyLogo}
-                                    alt="Agency Logo"
-                                    fill
-                                    className="rounded-md object-contain"
-                                  />
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                  {user?.Agency?.name}
-                                  <span className="text-muted-foreground">
-                                    {user?.Agency?.address}
-                                  </span>
-                                </div>
-                              </Link>
+                            <Link
+                              href={`/agency/${user?.Agency?.id}`}
+                              className="flex gap-4 w-full h-full"
+                            >
+                              <div className="relative w-16">
+                                <Image
+                                  src={user?.Agency?.agencyLogo}
+                                  alt="Agency Logo"
+                                  fill
+                                  className="rounded-md object-contain"
+                                />
+                              </div>
+                              <div className="flex flex-col flex-1">
+                                {user?.Agency?.name}
+                                <span className="text-muted-foreground">
+                                  {user?.Agency?.address}
+                                </span>
+                              </div>
+                            </Link>
                           )}
                         </CommandItem>
                       </CommandGroup>
@@ -224,9 +224,8 @@ const MenuOptions = ({
                   user?.role === "AGENCY_ADMIN") && (
                   <SheetClose>
                     <Button
-                    className="w-full flex gap-2"
-                    >
-                      {/* onClick={() => {
+                      className="w-full flex gap-2"
+                      onClick={() => {
                         setOpen(
                           <CustomModal
                             title="Create A Subaccount"
@@ -238,17 +237,18 @@ const MenuOptions = ({
                               userName={user?.name}
                             />
                           </CustomModal>
-                        )
-                      }} */}
-                    <PlusCircleIcon size={15} />
-                    Create Sub Account
-                  </Button>
+                        );
+                      }}
+                    >
+                      <PlusCircleIcon size={15} />
+                      Create Sub Account
+                    </Button>
                   </SheetClose>
                 )}
               </Command>
             </PopoverContent>
           </Popover>
-          {/* <p className="text-muted-foreground text-xs mb-2">MENU LINKS</p>
+          <p className="text-muted-foreground text-xs mb-2">MENU LINKS</p>
           <Separator className="mb-4" />
           <nav className="relative">
             <Command className="rounded-lg overflow-visible bg-transparent">
@@ -282,7 +282,7 @@ const MenuOptions = ({
               </CommandGroup>
               </CommandList>
             </Command>
-          </nav> */}
+          </nav>
         </div>
       </SheetContent>
     </Sheet>

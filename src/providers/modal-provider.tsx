@@ -70,6 +70,7 @@ export const useModal = () => {
   if (!context) {
     throw new Error("useModal must be used within the modal provider");
   }
+  return context
 };
 
 export default ModalProvider
