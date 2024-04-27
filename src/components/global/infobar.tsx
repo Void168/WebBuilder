@@ -1,6 +1,6 @@
 "use client";
 
-import { NotificationWithUser } from "@/libs/type";
+import { NotificationWithUser } from "@/libs/types";
 import { UserButton } from "@clerk/nextjs";
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
