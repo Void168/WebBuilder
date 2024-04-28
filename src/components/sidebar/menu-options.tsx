@@ -58,7 +58,6 @@ const MenuOptions = ({
 
   useEffect(() => {
     setIsMounted(true);
-    console.log(user);
   }, []);
 
   if (!isMounted) return;
