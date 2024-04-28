@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import {
   getAuthUserDetails,
+  getMedia,
   getUserPermissions,
 } from './queries'
 import { db } from "./db";
@@ -48,3 +49,7 @@ export type AuthUserWithAgencySidebarOptionsSubAccounts =
   Prisma.PromiseReturnType<
     typeof __getUsersWithAgencySubAccountPermissionsSidebarOptions
   >
+
+export type GetMediaFiles = Prisma.PromiseReturnType<typeof getMedia>
+
+export type CreateMediaType = Prisma.MediaCreateWithoutSubaccountInput
