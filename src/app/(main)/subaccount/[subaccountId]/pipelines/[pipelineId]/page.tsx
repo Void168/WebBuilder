@@ -3,6 +3,8 @@ import { db } from "@/libs/db";
 import {
   getLanesWithTicketAndTags,
   getPipelineDetails,
+  updateLanesOrder,
+  updateTicketsOrder,
   //   updateLanesOrder,
   //   updateTicketsOrder,
 } from "@/libs/queries";
@@ -10,6 +12,8 @@ import { LaneDetail } from "@/libs/types";
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import PipelineInfoBar from "../_components/pipeline-infobar";
+import PipelineSettings from "../_components/pipeline-settings";
+import PipelineView from "../_components/pipeline-view";
 // import PipelineSettings from '../_components/pipeline-settings'
 // import PipelineView from '../_components/pipeline-view'
 
@@ -43,7 +47,7 @@ const PipelinePage = async ({ params }: Props) => {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </div>
       </TabsList>
-      {/* <TabsContent value="view">
+      <TabsContent value="view">
         <PipelineView
           lanes={lanes}
           pipelineDetails={pipelineDetails}
@@ -59,7 +63,7 @@ const PipelinePage = async ({ params }: Props) => {
           pipelines={pipelines}
           subaccountId={params.subaccountId}
         />
-      </TabsContent> */}
+      </TabsContent>
     </Tabs>
   );
 };
