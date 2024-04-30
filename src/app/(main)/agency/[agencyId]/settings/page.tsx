@@ -35,7 +35,7 @@ const SettingsPage = async ({ params }: Props) => {
 
   return (
     <div className="flex md:!flex-row flex-col gap-4">
-      <AgencyDetails />
+      <AgencyDetails data={agencyDetails}/>
       <UserDetails
         type="agency"
         id={params.agencyId}

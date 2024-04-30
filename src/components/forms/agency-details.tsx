@@ -4,7 +4,7 @@ import { Agency } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { NumberInput } from "@tremor/react";
 import { useRouter } from "next/navigation";
-import { v4 } from 'uuid'
+import { v4 } from "uuid";
 
 import {
   AlertDialog,
@@ -40,7 +40,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FileUpload from "../global/file-upload";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
-import { initUser, saveActivityLogsNotification, updateAgencyDetails, upsertAgency, deleteAgency } from "@/libs/queries";
+import {
+  initUser,
+  saveActivityLogsNotification,
+  updateAgencyDetails,
+  upsertAgency,
+  deleteAgency,
+} from "@/libs/queries";
 import { Button } from "../ui/button";
 import Loading from "../global/loading";
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
@@ -96,8 +102,8 @@ const AgencyDetails = ({ data }: Props) => {
 
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
-      let newUserData
-      let custId
+      let newUserData;
+      let custId;
       if (!data?.id) {
         const bodyData = {
           email: values.companyEmail,
@@ -119,56 +125,56 @@ const AgencyDetails = ({ data }: Props) => {
             postal_code: values.zipCode,
             state: values.zipCode,
           },
-        }
+        };
 
-        // const customerResponse = await fetch('/api/stripe/create-customer', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(bodyData),
-        // })
-        // const customerData: { customerId: string } =
-        //   await customerResponse.json()
-        // custId = customerData.customerId
+        const customerResponse = await fetch("/api/stripe/create-customer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bodyData),
+        });
+        const customerData: { customerId: string } =
+          await customerResponse.json();
+        custId = customerData.customerId;
       }
 
-      newUserData = await initUser({ role: 'AGENCY_OWNER' })
-      if (!data?.id) {
-        const response = await upsertAgency({
-            id: data?.id ? data.id : v4(),
-            address: values.address,
-            agencyLogo: values.agencyLogo,
-            city: values.city,
-            companyPhone: values.companyPhone,
-            country: values.country,
-            name: values.name,
-            state: values.state,
-            whiteLabel: values.whiteLabel,
-            zipCode: values.zipCode,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            companyEmail: values.companyEmail,
-            connectAccountId: '',
-            goal: 5,
-          })
-          toast({
-            title: 'Created Agency',
-          })
-          if (data?.id) return router.refresh()
-          if (response) {
-            return router.refresh()
-          }
+      newUserData = await initUser({ role: "AGENCY_OWNER" });
+      if (!data?.id && !custId) return;
+      const response = await upsertAgency({
+        id: data?.id ? data.id : v4(),
+        customerId: data?.customerId || custId || "",
+        address: values.address,
+        agencyLogo: values.agencyLogo,
+        city: values.city,
+        companyPhone: values.companyPhone,
+        country: values.country,
+        name: values.name,
+        state: values.state,
+        whiteLabel: values.whiteLabel,
+        zipCode: values.zipCode,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        companyEmail: values.companyEmail,
+        connectAccountId: "",
+        goal: 5,
+      });
+      toast({
+        title: "Created Agency",
+      });
+      if (data?.id) return router.refresh();
+      if (response) {
+        return router.refresh();
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast({
-        variant: 'destructive',
-        title: 'Oppse!',
-        description: 'could not create your agency',
-      })
+        variant: "destructive",
+        title: "Oppse!",
+        description: "could not create your agency",
+      });
     }
-  }
+  };
 
   const handleDeleteAgency = async () => {
     if (!data?.id) return;
@@ -189,7 +195,7 @@ const AgencyDetails = ({ data }: Props) => {
         description: "could not delete your agency ",
       });
     }
-    setDeletingAgency(false)
+    setDeletingAgency(false);
   };
 
   return (
