@@ -71,22 +71,22 @@ const PipelineInfoBar = ({ pipelineId, pipelines, subAccountId }: Props) => {
                     key={pipeline.id}
                     href={`/subaccount/${subAccountId}/pipelines/${pipeline.id}`}
                   >
-                    {/* <CommandItem
-                      key={pipeline?.id}
-                      value={pipeline?.id}
+                    <CommandItem
+                      key={pipeline.id}
+                      value={pipeline.id}
                       onSelect={(currentValue) => {
                         setValue(currentValue)
                         setOpen(false)
                       }}
                     >
-                      {pipeline.name}
                       <Check
                         className={cn(
                           'mr-2 h-4 w-4',
                           value === pipeline.id ? 'opacity-100' : 'opacity-0'
                         )}
                       />
-                    </CommandItem> */}
+                    {pipeline.name}
+                    </CommandItem>
                   </Link>
                 ))}
                 <Button

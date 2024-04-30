@@ -33,8 +33,6 @@ const Pipelines = async ({ params }: Props) => {
   } catch (error) {
     console.log(error);
   }
-
-  return <div>Pipelines</div>;
 };
 
 export default Pipelines;
